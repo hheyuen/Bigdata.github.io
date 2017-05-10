@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  var x;
+  var y = '3';
+  $.getJSON("fusion.json", function(result){
+            /*?$.each(result, function(i, field){
+                $("div").append(field + " ");
+            });*/
+            console.log(result['0']);
+            x = result;
+
+
+    });
+    $("button").click(function(){
+      console.log('button clicked!');
+
+            __1.innerText = x['1'].time;
+            Num.innerText = x['1'].stockNumber;
+            Name.innerText = x['1'].stockName;
+            Price.innerText = x['1'].stockPrice;
+            Change.innerText = x['1'].stockChange;
+            percenChange.innerText = x['1'].percentageChange
+            preClose.innerText = x['1'].previousClose;
+            Open.innerText = x['1'].openingPrice;
+            Volume.innerText = x['1'].volume;
+            turnOver.innerText = x['1'].turnover;
+            bid.innerText = x['1'].bid;
+            ask.innerText = x['1'].ask;
+            dayLow.innerText = x['1'].dayLow;
+            dayHigh.innerText = x['1'].dayHigh;
+            yearLow.innerText = x['1'].yearLow;
+            yearHigh.innerText = x['1'].yearHigh;
+            marketCap.innerText = x['1'].marketCap;
+            PE.innerText = x['1'].PE;
+            lotSize.innerText = x['1'].lotSize;
+            EPS.innerText = x['1'].EPS;
+            EXDividendDate.innerText = x['1'].ExDividendDate;
+            OneYTarget.innerText = x['1'].OneYEST;
+        
+    });
+});
+</script>
+</head>
+<body>
+
+<button>Get JSON data</button>
+
+<div></div>
+<p id="Time"></p>
+<p id="Num"></p>
+<p id="Name"></p>
+<p id="Price"></p>
+<p id="Change"></p>
+<p id="percenChange"></p>
+<p id="preClose"></p>
+<p id="Open"></p>
+<p id="Volume"></p>
+<p id="turnOver"></p>
+<p id="bid"></p>
+<p id="ask"></p>
+<p id="dayLow"></p>
+<p id="dayHigh"></p>
+<p id="yearLow"></p>
+<p id="yearHigh"></p>
+<p id="marketCap"></p>
+<p id="PE"></p>
+<p id="lotSize"></p>
+<p id="EPS"></p>
+<p id="EXDividendDate"></p>
+<p id="OneYTarget"></p>
+<table border="0" cellspacing="1" cellpadding="2" width="1000">
+
+<tr>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        df
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        df
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        df
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        df
+    </td>
+</tr>
+<tr>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__1">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__2">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__3">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__4">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__5">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__6">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__7">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__8">
+        Nominsl Price
+    </td>
+</tr>
+<tr>
+    <td colspan=6 width="362">
+        <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+            &nbsp
+        </font>
+    </td>
+</tr>   
+
+<tr>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        df
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        df
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        df
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#99CCFF" align="center" width="53">
+        df
+    </td>
+</tr>
+<tr>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__9">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__10">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__11">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__12">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__13">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__14">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__15">
+        Nominsl Price
+    </td>
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__16">
+        Nominsl Price
+    </td>
+</tr>                         
+
+
+</table>
+</body>
+</html>
