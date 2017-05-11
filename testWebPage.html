@@ -1,11 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function findMostUpdatedData(inputstocknum){
+        for (var i = Object.keys(x).length - 1; i > -1; i--) {
+            var temp = i.toString();
+            var isnum = /^\d+$/.test(inputstocknum);
+            console.log(isnum);
+            if(!isnum){
+                if (x[temp].stockName.replace(/\s/g,'').toLowerCase() == inputstocknum.replace(/\s/g,'').toLowerCase()){
+                y = temp;
+                document.getElementById("demo").innerHTML= inputstocknum + " is found!!!";
+                break;
+                }
+            }
+            else if(isnum){
+                if (x[temp].stockNumber == inputstocknum){
+                y = temp;
+                document.getElementById("demo").innerHTML= inputstocknum + " is found!!!";
+                break;
+                }
+            }
+            document.getElementById("demo").innerHTML="Stock not found!!!";
+
+        }
+        var count=0;
+        for(var i = Object.keys(x).length - 1; i > -1; i--){
+            var temp = i.toString();
+            if(isnum){
+                if(x[temp].stockNumber == inputstocknum){
+                    indexArray[count] = i;
+                    count++;
+                }
+            }
+            else if(!isnum){
+                if (x[temp].stockName.replace(/\s/g,'').toLowerCase() == inputstocknum.replace(/\s/g,'').toLowerCase()){
+                    indexArray[count] = i;
+                    count++;
+                }
+            }
+            if (count==10){
+                break;
+            }
+        }
+    }
+
+
+
+      function drawChart() {
+                console.log(x[indexArray[9]].stockNumber);
+
+
+        var data = google.visualization.arrayToDataTable([
+          ['time', 'price'],
+          [x[indexArray[9]].time,  parseFloat(x[indexArray[9]].stockPrice)],
+          [x[indexArray[8]].time,  parseFloat(x[indexArray[8]].stockPrice)],
+          [x[indexArray[7]].time,  parseFloat(x[indexArray[7]].stockPrice)],
+          [x[indexArray[6]].time,  parseFloat(x[indexArray[6]].stockPrice)],
+          [x[indexArray[5]].time,  parseFloat(x[indexArray[5]].stockPrice)],
+          [x[indexArray[4]].time,  parseFloat(x[indexArray[4]].stockPrice)],
+          [x[indexArray[3]].time,  parseFloat(x[indexArray[3]].stockPrice)],
+          [x[indexArray[2]].time,  parseFloat(x[indexArray[2]].stockPrice)],
+          [x[indexArray[1]].time,  parseFloat(x[indexArray[1]].stockPrice)],
+          [x[indexArray[0]].time, parseFloat(x[indexArray[0]].stockPrice)]
+        ]);
+
+        var options = {
+          title: x[indexArray[9]].stockNumber + '\t' + x[indexArray[9]].stockName,
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-  var x;
-  var y = '3';
+  x = 0;
+  var y = '1';
+  var inputstocknum;
+  indexArray=['0','0','0','0','0','0','0','0','0','0'];
   $.getJSON("fusion.json", function(result){
             /*?$.each(result, function(i, field){
                 $("div").append(field + " ");
@@ -13,65 +95,143 @@ $(document).ready(function(){
             console.log(result['0']);
             x = result;
 
+    }).then(function(){
+         tittle.innerText = x[y].stockNumber + '      '  + x[y].stockName;
+         tittle.innerText = '-';
+
+
+         findMostUpdatedData('0001');
 
     });
+    
+    document.getElementById("button1").addEventListener("click", function(){
+        //document.getElementById("demo").innerHTML = document.getElementById("id1").value;
+        inputstocknum = document.getElementById("id1").value;
+
+        inputstocknum = inputstocknum.replace(/\s/g,'').toLowerCase();
+
+        if(!isNaN(inputstocknum)){
+            while(inputstocknum.length < 4){
+                inputstocknum = '0' + inputstocknum;
+            }
+        }
+        
+
+
+
+
+
+        for (var i = Object.keys(x).length - 1; i > -1; i--) {
+            var temp = i.toString();
+            var isnum = /^\d+$/.test(inputstocknum);
+            console.log(isnum);
+            if(!isnum){
+                if (x[temp].stockName.replace(/\s/g,'').toLowerCase().includes(inputstocknum.replace(/\s/g,'').toLowerCase() ) ){
+                y = temp;
+                document.getElementById("demo").innerHTML= inputstocknum + " is found!!!";
+                break;
+                }
+            }
+            else if(isnum){
+                if (x[temp].stockNumber == inputstocknum){
+                y = temp;
+                document.getElementById("demo").innerHTML= inputstocknum + " is found!!!";
+                break;
+                }
+            }
+            document.getElementById("demo").innerHTML="Stock not found!!!";
+
+        }
+
+
+        var count=0;
+        for(var i = Object.keys(x).length - 1; i > -1; i--){
+            var temp = i.toString();
+            if(isnum){
+                if(x[temp].stockNumber == inputstocknum){
+                    indexArray[count] = i;
+                    count++;
+                }
+            }
+            else if(!isnum){
+                if (x[temp].stockName.replace(/\s/g,'').toLowerCase().includes(inputstocknum.replace(/\s/g,'').toLowerCase())){
+                    indexArray[count] = i;
+                    count++;
+                }
+            }
+            if (count==10){
+                break;
+            }
+        }
+        console.log(y);
+
+        tittle.innerText = x[y].stockNumber + '      '  + x[y].stockName;
+    });
+
     $("button").click(function(){
       console.log('button clicked!');
 
-            __1.innerText = x['1'].time;
-            Num.innerText = x['1'].stockNumber;
-            Name.innerText = x['1'].stockName;
-            Price.innerText = x['1'].stockPrice;
-            Change.innerText = x['1'].stockChange;
-            percenChange.innerText = x['1'].percentageChange
-            preClose.innerText = x['1'].previousClose;
-            Open.innerText = x['1'].openingPrice;
-            Volume.innerText = x['1'].volume;
-            turnOver.innerText = x['1'].turnover;
-            bid.innerText = x['1'].bid;
-            ask.innerText = x['1'].ask;
-            dayLow.innerText = x['1'].dayLow;
-            dayHigh.innerText = x['1'].dayHigh;
-            yearLow.innerText = x['1'].yearLow;
-            yearHigh.innerText = x['1'].yearHigh;
-            marketCap.innerText = x['1'].marketCap;
-            PE.innerText = x['1'].PE;
-            lotSize.innerText = x['1'].lotSize;
-            EPS.innerText = x['1'].EPS;
-            EXDividendDate.innerText = x['1'].ExDividendDate;
-            OneYTarget.innerText = x['1'].OneYEST;
+
+            // stockNum.innerText = x['1'].stockNumber;
+            // stockName.innerText = x['1'].stockName;
+            // Name.innerText = x['1'].stockName;
+            Price.innerText = x[y].stockPrice;
+            Change.innerText = x[y].stockChange;
+            percenChange.innerText = x[y].percentageChange
+            preClose.innerText = x[y].previousClose;
+            Open.innerText = x[y].openingPrice;
+            Volume.innerText = x[y].volume;
+            turnOver.innerText = x[y].turnover;
+            bid.innerText = x[y].bid;
+            ask.innerText = x[y].ask;
+            dayLow.innerText = x[y].dayLow;
+            dayHigh.innerText = x[y].dayHigh;
+            yearLow.innerText = x[y].yearLow;
+            yearHigh.innerText = x[y].yearHigh;
+            marketCap.innerText = x[y].marketCap;
+            PE.innerText = x[y].PE;
+            lotSize.innerText = x[y].lotSize;
+            // EPS.innerText = x['1'].EPS;
+            // EXDividendDate.innerText = x['1'].ExDividendDate;
+            // OneYTarget.innerText = x['1'].OneYEST;
+
+            drawChart();
         
     });
 });
+
 </script>
+
 </head>
 <body>
+<h2 align="center">COMP4332/RMBI4310 Group12</h2>
+<h2 align="center">STOCK PORTAL</h2>
+Stock name or number:<br>
+<input type="text" id="id1" name="stock" value="Please input stock name or number" size = "50">
+<p id="demo"></p>
+<button id="button1" >SEARCH</button>
+<!-- <button>Get JSON data</button> -->
 
-<button>Get JSON data</button>
 
-<div></div>
-<p id="Time"></p>
-<p id="Num"></p>
-<p id="Name"></p>
-<p id="Price"></p>
-<p id="Change"></p>
-<p id="percenChange"></p>
-<p id="preClose"></p>
-<p id="Open"></p>
-<p id="Volume"></p>
-<p id="turnOver"></p>
-<p id="bid"></p>
-<p id="ask"></p>
-<p id="dayLow"></p>
-<p id="dayHigh"></p>
-<p id="yearLow"></p>
-<p id="yearHigh"></p>
-<p id="marketCap"></p>
-<p id="PE"></p>
-<p id="lotSize"></p>
-<p id="EPS"></p>
-<p id="EXDividendDate"></p>
-<p id="OneYTarget"></p>
+<div>
+    <p id = "stockNum" width = "53">
+        
+    </p>
+    <p id = "stockName" width = "200">
+
+    </p>      
+    <td>
+        <font size="4" face="Verdana, Arial, Helvetica, sans-serif" color="#66CCFF" id = "tittle">
+            -
+        </font>
+
+    
+
+
+
+
+
+</div>
 <table border="0" cellspacing="1" cellpadding="2" width="1000">
 
 <tr>
@@ -79,51 +239,51 @@ $(document).ready(function(){
         Nominsl Price
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        df
+        Change
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        Nominsl Price
+        Percentage Change
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        df
+        Previous Close
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        Nominsl Price
+        Opening Price
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        df
+        Volume
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        Nominsl Price
+        Turnover
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        df
+        Bid
     </td>
 </tr>
 <tr>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__1">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "Price">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__2">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "Change">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__3">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "percenChange">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__4">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "preClose">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__5">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "Open">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__6">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "Volume">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__7">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "turnOver">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__8">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "bid">
+        -
     </td>
 </tr>
 <tr>
@@ -136,58 +296,62 @@ $(document).ready(function(){
 
 <tr>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        Nominsl Price
+        Ask
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        df
+        Day Low
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        Nominsl Price
+        Day High
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        df
+        Year Low
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        Nominsl Price
+        Year High
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        df
+        Market Capitalization
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        Nominsl Price
+        P/E Ratio
     </td>
     <td bgcolor = "#99CCFF" align="center" width="53">
-        df
+        Lot Size
     </td>
 </tr>
 <tr>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__9">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "ask">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__10">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "dayLow">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__11">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "dayHigh">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__12">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "yearLow">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__13">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "yearHigh">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__14">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "marketCap">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__15">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "PE">
+        -
     </td>
-    <td bgcolor = "#CCCCCC" align="center" width="53" id = "__16">
-        Nominsl Price
+    <td bgcolor = "#CCCCCC" align="center" width="53" id = "lotSize">
+        -
     </td>
 </tr>                         
 
 
 </table>
+<div id="curve_chart" style="width: 900px; height: 500px"></div>
+<script>
+    
+</script>
 </body>
 </html>
